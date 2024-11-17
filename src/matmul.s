@@ -93,14 +93,8 @@ inner_loop_start:
     li a3, 1 # stride for matrix A
     mv a4, a5 # stride for matrix B
     
-    #li a2, 1
-    #li a3, 1
-    #li a4, 1
-    #mv t0, a2
-    #sw t0, 0(s2)
-    
     jal dot
-    #li a0, 20
+    
     mv t0, a0 # storing result of the dot product into t0
     
     lw a0, 0(sp)
