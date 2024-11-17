@@ -22,7 +22,16 @@ abs:
     bge t0, zero, done
 
     # TODO: Add your own implementation
-
+    
+    # t1: mask (only 0 or -1)
+    srai t1, t0, 31
+    
+    # t0 = (t0 ^ mask) - mask
+    xor  t0, t0, t1
+    sub  t0, t0, t1
+    
+    # change data in MEM[a0] 
+    sw   t0 0(a0)
 done:
     # Epilogue
     jr ra

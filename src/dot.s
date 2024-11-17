@@ -29,7 +29,7 @@ dot:
     li t0, 1
     blt a2, t0, error_terminate  
     blt a3, t0, error_terminate   
-    blt a4, t0, error_terminate  
+    blt a4, t0, error_terminate 
 
     li t0, 0            
     li t1, 0         
@@ -37,6 +37,58 @@ dot:
 loop_start:
     bge t1, a2, loop_end
     # TODO: Add your own implementation
+    # t1: i
+    # t0: result
+
+    lw t2, 0(a0)
+    lw t3, 0(a1)
+    
+    # MEM[a0] * MEM[a1]
+    # result += MEM[a0] * MEM[a1]
+    addi sp, sp, -4
+    sw  t0, 0(sp)
+    MUL:
+        # result(t0) = t2 * t3 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        mul_loop:
+            beq  t4, t5, END_MEL
+            andi t6, t3, 1
+            beq  t6, x0, skip
+            add  t0, t0, t2
+
+        skip:
+            slli t2, t2, 1
+            srli t3, t3, 1
+            addi t4, t4, 1
+            j mul_loop
+    END_MEL:
+    # t2 = t2 * t3
+    mv t2, t0
+    
+    lw  t0, 0(sp)
+    addi sp, sp, 4
+
+    # result += t2 * t3    
+    add t0, t0, t2
+
+
+
+    slli t4, a3, 2
+    slli t5, a4, 2
+
+    # shift with strides
+    add a0, a0, t4
+    add a1, a1, t5
+
+    # i++
+    addi t1, t1, 1
+
+    j loop_start
 
 loop_end:
     mv a0, t0

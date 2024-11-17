@@ -167,6 +167,42 @@ classify:
     lw t0, 0(s3)
     lw t1, 0(s8)
     # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    addi sp, sp, -20
+    sw  t0, 0(sp)
+    sw  t4, 4(sp)
+    sw  t5, 8(sp)
+    sw  s2, 12(sp)
+    sw  s3, 16(sp)
+    mv s2, t0
+    mv s3, t1
+    classify_MUL1:
+        # result(t0) = s2 * s3 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        classify_mul_loop1:
+            beq  t4, t5, classify_END_MUL1
+            andi t6, s3, 1
+            beq  t6, x0, classify_skip1
+            add  t0, t0, s2
+
+        classify_skip1:
+            slli s2, s2, 1
+            srli s3, s3, 1
+            addi t4, t4, 1
+            j classify_mul_loop1
+    classify_END_MUL1:
+    mv a0 t0
+    lw  t0, 0(sp)
+    lw  t4, 4(sp)
+    lw  t5, 8(sp)
+    lw  s2, 12(sp)
+    lw  s3, 16(sp)
+    addi sp, sp, 20
+
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -204,6 +240,42 @@ classify:
     lw t0, 0(s3)
     lw t1, 0(s8)
     # mul a1, t0, t1 # length of h array and set it as second argument
+    addi sp, sp, -20
+    sw  t0, 0(sp)
+    sw  t4, 4(sp)
+    sw  t5, 8(sp)
+    sw  s2, 12(sp)
+    sw  s3, 16(sp)
+    mv s2, t0
+    mv s3, t1
+    classify_MUL2:
+        # result(t0) = s2 * s3 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        classify_mul_loop2:
+            beq  t4, t5, classify_END_MUL2
+            andi t6, s3, 1
+            beq  t6, x0, classify_skip2
+            add  t0, t0, s2
+
+        classify_skip2:
+            slli s2, s2, 1
+            srli s3, s3, 1
+            addi t4, t4, 1
+            j classify_mul_loop2
+    classify_END_MUL2:
+    mv a1 t0
+    lw  t0, 0(sp)
+    lw  t4, 4(sp)
+    lw  t5, 8(sp)
+    lw  s2, 12(sp)
+    lw  s3, 16(sp)
+    addi sp, sp, 20
+    
     # FIXME: Replace 'mul' with your own implementation
     
     jal relu
@@ -226,7 +298,43 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s6)
-    # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    # mul a0, t0, t1 
+    addi sp, sp, -20
+    sw  t0, 0(sp)
+    sw  t4, 4(sp)
+    sw  t5, 8(sp)
+    sw  s2, 12(sp)
+    sw  s3, 16(sp)
+    mv s2, t0
+    mv s3, t1
+    classify_MUL3:
+        # result(t0) = s2 * s3 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        classify_mul_loop3:
+            beq  t4, t5, classify_END_MUL3
+            andi t6, s3, 1
+            beq  t6, x0, classify_skip3
+            add  t0, t0, s2
+
+        classify_skip3:
+            slli s2, s2, 1
+            srli s3, s3, 1
+            addi t4, t4, 1
+            j classify_mul_loop3
+    classify_END_MUL3:
+    mv a0 t0
+    lw  t0, 0(sp)
+    lw  t4, 4(sp)
+    lw  t5, 8(sp)
+    lw  s2, 12(sp)
+    lw  s3, 16(sp)
+    addi sp, sp, 20
+    # FIXME: Replace 'mul' with your own implementation
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -286,7 +394,42 @@ classify:
     mv a0, s10 # load o array into first arg
     lw t0, 0(s3)
     lw t1, 0(s6)
-    mul a1, t0, t1 # load length of array into second arg
+    # mul a1, t0, t1 # load length of array into second arg
+    addi sp, sp, -20
+    sw  t0, 0(sp)
+    sw  t4, 4(sp)
+    sw  t5, 8(sp)
+    sw  s2, 12(sp)
+    sw  s3, 16(sp)
+    mv s2, t0
+    mv s3, t1
+    classify_MUL4:
+        # result(t0) = s2 * s3 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        classify_mul_loop4:
+            beq  t4, t5, classify_END_MUL4
+            andi t6, s3, 1
+            beq  t6, x0, classify_skip4
+            add  t0, t0, s2
+
+        classify_skip4:
+            slli s2, s2, 1
+            srli s3, s3, 1
+            addi t4, t4, 1
+            j classify_mul_loop4
+    classify_END_MUL4:
+    mv a1 t0
+    lw  t0, 0(sp)
+    lw  t4, 4(sp)
+    lw  t5, 8(sp)
+    lw  s2, 12(sp)
+    lw  s3, 16(sp)
+    addi sp, sp, 20
     # FIXME: Replace 'mul' with your own implementation
     
     jal argmax

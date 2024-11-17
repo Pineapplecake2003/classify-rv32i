@@ -93,8 +93,14 @@ inner_loop_start:
     li a3, 1 # stride for matrix A
     mv a4, a5 # stride for matrix B
     
-    jal dot
+    #li a2, 1
+    #li a3, 1
+    #li a4, 1
+    #mv t0, a2
+    #sw t0, 0(s2)
     
+    jal dot
+    #li a0, 20
     mv t0, a0 # storing result of the dot product into t0
     
     lw a0, 0(sp)
@@ -116,6 +122,25 @@ inner_loop_start:
     
 inner_loop_end:
     # TODO: Add your own implementation
+    
+    slli t2, a2, 2
+    add s3, s3, t2
+    # outer counter ++
+    addi s0, s0, 1
+    j outer_loop_start
+
+outer_loop_end:
+    
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    lw s1, 8(sp)
+    lw s2, 12(sp)
+    lw s3, 16(sp)
+    lw s4, 20(sp)
+    lw s5, 24(sp)
+
+    addi sp, sp, 28
+ret
 
 error:
     li a0, 38

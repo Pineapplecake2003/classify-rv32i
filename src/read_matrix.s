@@ -74,6 +74,32 @@ read_matrix:
     sw t1, 0(s3)     # saves num rows
     sw t2, 0(s4)     # saves num cols
 
+    addi sp, sp, -4
+    sw  t0, 0(sp)
+    read_matrix_MUL:
+        # result(t0) = t1 * t2 
+        # t0: result of mul
+        li t0, 0
+        # t4: counter
+        li t4, 0
+        # t5: 32 bits
+        li t5, 32
+        read_mul_loop:
+            beq  t4, t5, read_matrix_END_MUL
+            andi t6, t2, 1
+            beq  t6, x0, read_skip
+            add  t0, t0, t1
+
+        read_skip:
+            slli t1, t1, 1
+            srli t2, t2, 1
+            addi t4, t4, 1
+            j read_mul_loop
+    read_matrix_END_MUL:
+    # s1 = t1 *t2
+    mv s1 t0
+    lw  t0, 0(sp)
+    addi sp, sp, 4
     # mul s1, t1, t2   # s1 is number of elements
     # FIXME: Replace 'mul' with your own implementation
 

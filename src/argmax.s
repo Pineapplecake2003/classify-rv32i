@@ -32,6 +32,33 @@ argmax:
 loop_start:
     # TODO: Add your own implementation
 
+    # t0: maximum value in array
+    # t1: index of maximum
+    # t2: i
+    beq a1, t6, ARGMAX_RETURN
+
+    addi a0, a0, 4
+    lw t3 0(a0)
+    
+    # if MEM[a0+1] > MEM[a0]
+    blt t0, t3, IF_BIGGER
+    j IF_BIGGER_END
+    IF_BIGGER:
+        # t1 <= maximum index
+        mv t1, t2
+        # update t0
+        mv   t0, t3
+    IF_BIGGER_END:
+
+    # i ++
+    addi t2, t2, 1
+    # i < len(array)
+    blt  t2, a1, loop_start
+
+ARGMAX_RETURN:
+    mv a0, t1
+    ret
+
 handle_error:
     li a0, 36
     j exit
